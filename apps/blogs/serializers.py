@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from apps.blogs.models import BlogPost
-from apps.custom_auth.models import User
 
+#TODO: WARNING! For testing only
+from django.contrib.auth.models import User
+#
 
 class BlogPostSerializer(serializers.ModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
