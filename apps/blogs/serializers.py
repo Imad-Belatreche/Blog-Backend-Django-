@@ -1,7 +1,13 @@
 from rest_framework import serializers
-from .models import Comment
-from apps.blogs.models import BlogPost, BlogPostCategory, Category
 from django.contrib.auth.models import User
+from .models import BlogPost,Likes, BlogPostCategory, Category, Comment
+
+class Likesserializer(serializers.ModelSerializer):
+    user_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    blog_id = serializers.PrimaryKeyRelatedField(queryset=BlogPost.objects.all())
+    class Meta:
+        model = Likes
+        fields = '__all__'
 
 
 class CommentSerializer(serializers.ModelSerializer):
