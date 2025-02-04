@@ -1,8 +1,16 @@
 from rest_framework import serializers
+from .models import Comment
 from apps.blogs.models import BlogPost, BlogPostCategory, Category
-
-#TODO: WARNING! For testing only
 from django.contrib.auth.models import User
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'post', 'user', 'body', 'created']
+
 #
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
