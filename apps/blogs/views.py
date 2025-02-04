@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics, status, filters
 from .models import BlogPost, Comment, Likes
-from .serializers import CommentSerializer, Likesserializer
+from .serializers import CommentSerializer, Likesserializer, BlogPostSerializer
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 class LikeUnlikeBlogPostView(APIView):
