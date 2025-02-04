@@ -1,13 +1,23 @@
 from rest_framework import serializers
-from apps.blogs.models import BlogPost
+from apps.blogs.models import BlogPost, BlogPostCategory, Category
 
 #TODO: WARNING! For testing only
 from django.contrib.auth.models import User
 #
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["id", "category_name"]
 
 class BlogPostSerializer(serializers.ModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-
+    categories = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), many=True)
+    
     class Meta:
         model = BlogPost
-        fields = ["id", "title", "description", "content", "user_id"]
+        fields = ["id", "title", "description", "content", "user_id", "categories"]
+
+class BlogCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogPostCategory
+        fields = ["id", "blog_id", "category"]
