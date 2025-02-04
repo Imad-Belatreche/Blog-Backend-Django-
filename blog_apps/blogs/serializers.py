@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from blog_apps.custom_auth.models import User
 from .models import BlogPost,Likes, BlogPostCategory, Category, Comment
 
 class Likesserializer(serializers.ModelSerializer):
