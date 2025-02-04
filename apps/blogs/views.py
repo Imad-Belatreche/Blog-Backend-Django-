@@ -1,6 +1,5 @@
-from curses.ascii import HT
 from django.http import Http404
-from rest_framework import generics, status
+from rest_framework import generics, status, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -11,6 +10,11 @@ from apps.blogs.serializers import BlogPostSerializer
 class BlogPostCreateListView(generics.ListCreateAPIView):
     queryset = BlogPost.objects.all()
     serializer_class = BlogPostSerializer
+    # Adds search functionality using the title field
+    # and the api call is /api/blogs/?search=something
+    
+    search_fields = ['title']
+    filter_backends = [filters.SearchFilter]
 
     def get_permissions(self):
         if self.request.method == "POST":
