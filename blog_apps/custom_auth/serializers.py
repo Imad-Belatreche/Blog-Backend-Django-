@@ -37,3 +37,30 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             }
         else:
             raise serializers.ValidationError("Email and password are required")
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True, min_length=8)
+
+    class Meta:
+        model = User
+        fields = ['email', 'password']
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        password = attrs.get("password")
+        if not email:
+            raise serializers.ValidationError({"email": "This field is required."})
+        if not password:
+            raise serializers.ValidationError({"password": "This field is required."})
+
+        return attrs
+
+    def create(self, validated_data):
+        # Remove the password confirmation field before saving
+        validated_data['password'] = make_password(validated_data['password'])  # Hash password
+        validated_data['is_active'] = True  # Set user active
+        user = super().create(
+            validated_data
+        )
+        return user
